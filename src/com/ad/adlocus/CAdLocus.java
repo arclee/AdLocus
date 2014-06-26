@@ -1,16 +1,26 @@
 package com.ad.adlocus;
 
+import java.util.Locale;
 
-//import java.util.GregorianCalendar;
 
+
+
+
+
+import android.content.res.Resources;
 import android.app.Activity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.FrameLayout;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 
 
+
+
+import android.content.pm.PackageManager.NameNotFoundException;
 
 import com.adlocus.*;
 
@@ -39,9 +49,58 @@ public class CAdLocus
     //callback.
     CAdLocusListenerCallBack listenerCB = null;
     
+    public void GetLang()
+    {
+    	//Locale current = mActivity.getResources().getConfiguration().locale;
+    	//Locale current2 = Resources.getSystem().getConfiguration().locale;
+    	String disp = Locale.getDefault().getLanguage();
+    	//String disp2 = Locale.getDefault().getDisplayLanguage(current2);
+    	//String disp3 =  Locale.getDefault().getDisplayLanguage(Locale.getDefault());
+    	String disp2 = Resources.getSystem().getConfiguration().locale.toString();
+    	Log.v("CAdLocus getLanguage", disp);
+    	Log.v("CAdLocus getConfiguration", disp2);
+    	//Log.v("CAdLocus def loc", disp3);
+    	
+    }
+    
+    public String GetAppVersionName()
+    {
+    	String ver = "versionName not found";
+    	PackageManager pm = mActivity.getApplicationContext().getPackageManager();
+    	PackageInfo pInfo;
+		try {
+			pInfo = pm.getPackageInfo(mActivity.getPackageName(), 0);
+			ver = pInfo.versionName;
+	    	Log.v("CAdLocus", " GetAppVersion name:" + ver);
+		} catch (NameNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	    	
+    	return ver;
+    }
+    
+    public int GetAppVersionCode()
+    {
+    	int ver = 0;
+    	PackageManager pm = mActivity.getApplicationContext().getPackageManager();
+    	PackageInfo pInfo;
+		try {
+			pInfo = pm.getPackageInfo(mActivity.getPackageName(), 0);
+			ver = pInfo.versionCode;
+	    	Log.v("CAdLocus",  "GetAppVersion code:" + Integer.toString(ver));
+		} catch (NameNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	    	
+    	return ver;
+    }
+    
     public CAdLocus(Activity currentActivity)
     {
     	mActivity = currentActivity;
+    	
     }
     
     public void SetListenerCB(CAdLocusListenerCallBack cb)
